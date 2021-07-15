@@ -44,18 +44,17 @@ public class MainActivity extends AppCompatActivity {
     private ChatController chatController;
     private BluetoothDevice connectingDevice;
     private ArrayAdapter<String> discoveredDevicesAdapter;
-    public String boyevoyKlichOlenya = "base64";
+    public String boyevoyKlichOlenya = "base64"; // клич - 128 біт константа
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSend = findViewById(R.id.Send);
+        mSend = findViewById(R.id.btn_send);
         status = (TextView) findViewById(R.id.status);
         btnConnect = (Button) findViewById(R.id.btn_connect);
-        listView = (ListView) findViewById(R.id.list);
-        View btnSend = findViewById(R.id.Send);
+        View btnSend = findViewById(R.id.btn_send);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
@@ -168,8 +167,6 @@ public class MainActivity extends AppCompatActivity {
             for (BluetoothDevice device : pairedDevices) {
                 pairedDevicesAdapter.add(device.getName() + "\n" + device.getAddress());
             }
-        } else {
-            pairedDevicesAdapter.add(getString(R.string.none_paired));
         }
 
         //Handling listview item click event
@@ -248,10 +245,6 @@ public class MainActivity extends AppCompatActivity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
                     discoveredDevicesAdapter.add(device.getName() + "\n" + device.getAddress());
-                }
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                if (discoveredDevicesAdapter.getCount() == 0) {
-                    discoveredDevicesAdapter.add(getString(R.string.none_found));
                 }
             }
         }
