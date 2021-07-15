@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Deer</string>
+    <string name="warning"> УВАГА!  Це тестовий емулятор криптографічної строки. Про використання даної утиліти повідомте розробника.</string>
 </resources>
