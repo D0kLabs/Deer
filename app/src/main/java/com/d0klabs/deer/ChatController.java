@@ -34,14 +34,12 @@ public class ChatController {
     public ChatController(Context context, Handler handler) {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         state = STATE_NONE;
-
         this.handler = handler;
     }
 
     // Set the current state of the chat connection
     private synchronized void setState(int state) {
         this.state = state;
-
         handler.obtainMessage(MainActivity.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
     }
 
@@ -52,13 +50,11 @@ public class ChatController {
 
     // start service
     public synchronized void start() {
-        // Cancel any thread
         if (connectThread != null) {
             connectThread.cancel();
             connectThread = null;
         }
 
-        // Cancel any running thresd
         if (connectedThread != null) {
             connectedThread.cancel();
             connectedThread = null;
@@ -291,21 +287,16 @@ public class ChatController {
 
         public ReadWriteThread(BluetoothSocket socket) {
             this.bluetoothSocket = socket;
-            InputStream tmpIn = null;
             OutputStream tmpOut = null;
-
             try {
-                tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
             }
-
             outputStream = tmpOut;
         }
 
         public void run() {
             byte[] buffer = new byte[1024];
-            int bytes;
 
             // Keep listening to the InputStream
             while (true) {
