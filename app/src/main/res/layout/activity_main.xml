@@ -27,6 +27,7 @@
         android:orientation="horizontal"
         android:id="@+id/centercontrols"
         app:layout_constraintTop_toBottomOf="@+id/topcontrols">
+
         <Button
             android:id="@+id/btn_send"
             android:layout_width="match_parent"
