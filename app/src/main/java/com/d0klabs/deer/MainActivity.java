@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> chatMessages;
     private BluetoothAdapter bluetoothAdapter;
     private Button mSend;
-
+    public short[] iBits = {(1),(0),(0),(1),(1),(0),(0),(1),(1),(0),(1),(0),(1),(1),(0),(0),(1),(1),(0),(1),(1),(0),(1),(0),(1),(1),(1),(0),(0),(0),(0),(0),(1),(1),(0),(1),(0),(1),(0),(0),(1),(0),(0),(1),(0),(1),(1),(0),(1),(1),(0),(0),(0),(0),(1),(0),(1),(1),(0),(1),(0),(1),(0),(1),(1),(0),(1),(1),(0),(1),(0),(1),(1),(0),(1),(1),(1),(1),(0),(0),(1),(1),(1),(0),(0),(0),(0),(0),(0),(1),(1),(0),(1),(1),(1),(1),(0),(0),(1),(1),(1),(1),(0),(1),(0),(1),(0),(1),(1),(0),(1),(1),(0),(1),(1),(1),(0),(1),(1),(0),(1),(0),(0),(0),(0),(0),(0),(0)};// maza4akthatrecDeerbt by Base64
+    public boolean b=false;
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_WRITE = 3;
     public static final int MESSAGE_DEVICE_OBJECT = 4;
@@ -44,11 +46,21 @@ public class MainActivity extends AppCompatActivity {
     private ChatController chatController;
     private BluetoothDevice connectingDevice;
     private ArrayAdapter<String> discoveredDevicesAdapter;
-    public String boyevoyKlichOlenya = "base64"; // клич - 128 біт константа
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        BitSet boyevoyKlichOlenya = new BitSet(128);// клич - 128 біт константа
+
+        for (int v, i = 0; i < 128; i++) {
+            v=iBits[i];
+           if (v !=0){
+               b=true;
+           }
+            boyevoyKlichOlenya.set(i, b);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSend = findViewById(R.id.btn_send);
@@ -70,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendMessage(boyevoyKlichOlenya);
+                sendMessage(String.valueOf(boyevoyKlichOlenya.toByteArray().toString())); //Bitset to Bytes string
             }
         });
         chatMessages = new ArrayList<>();
@@ -128,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Connection lost!", Toast.LENGTH_SHORT).show();
             return;
         }
-        byte[] writeData = boyevoyKlichOlenya.getBytes();
+        byte[] writeData = message.getBytes();
         chatController.write(writeData);
     }
     private void showPrinterPickDialog() {
